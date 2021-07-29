@@ -78,9 +78,9 @@ if __name__ == '__main__':
     # define the total iterations
     n_iter = 100
     # bits
-    n_bits = 500
+    n_bits = 5
     # define the population size
-    n_pop = 1000
+    n_pop = 100
     # crossover rate
     r_cross = 0.2
     # mutation rate
