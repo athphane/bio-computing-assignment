@@ -18,5 +18,5 @@ For the binary datasets, you will need to change a few things to switch betwen d
 
 To run the binary dataset, cd into the binary folder and do `python binary.py`
 
-The floating point dataset can be run immediately by cding into the directory and 
+The floating-point dataset can be run immediately by cding into the directory and 
 running `python float.py`
