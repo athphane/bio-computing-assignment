@@ -8,9 +8,9 @@ from floating.selection import Selection
 POPULATION_SIZE = 200
 CHROMOSOME_LENGTH = 20
 GENE_SIZE = 20
-MUTATION_RATE = 0.01
-OMEGA_OFFSET_FIXED = 0.3
-NUMBER_OF_GENERATIONS = 2000
+MUTATION_RATE = 0.5
+CONTROL_OFFSET = 0.3
+NUMBER_OF_GENERATIONS = 1000
 
 
 class FloatGA:
@@ -33,7 +33,7 @@ class FloatGA:
         Read the dataset file and load it into the self.dataset variable.
         :return:
         """
-        file = open('data/data3.txt', 'r')
+        file = open('../data/data3.txt', 'r')
         lines = file.readlines()
 
         conditionLengthTemp = 0
@@ -131,7 +131,7 @@ class FloatGA:
             children = Crossover().run(parents[0], parents[1], GENE_SIZE)
 
             # Mutation and add offspring to population for the first child
-            children[0].mutation_control(MUTATION_RATE, OMEGA_OFFSET_FIXED)
+            children[0].mutation_control(MUTATION_RATE, CONTROL_OFFSET)
             children[0].mutation_output(MUTATION_RATE)
             self.offspringPopulation[x] = children[0]
 
@@ -140,7 +140,7 @@ class FloatGA:
                 x += 1
 
                 # Mutation and add offspring to population for the second child
-                children[1].mutation_control(MUTATION_RATE, OMEGA_OFFSET_FIXED)
+                children[1].mutation_control(MUTATION_RATE, CONTROL_OFFSET)
                 children[1].mutation_output(MUTATION_RATE)
                 self.offspringPopulation[x] = children[1]
 
@@ -238,7 +238,7 @@ if __name__ == '__main__':
         print(f"Best Fitness: {ga.bestIndividual.getFitness()} | Generations: {current_generation}")
 
         # CSV goes here
-        print(f"{ga.bestIndividual.getFitness()},{ga.get_average_fitness()},{ga.worstIndividual.getFitness()}\n")
+        print(f"{ga.bestIndividual.getFitness()},{ga.get_average_fitness()},{ga.worstIndividual.getFitness()}")
         f.write(f"{ga.bestIndividual.getFitness()},{ga.get_average_fitness()},{ga.worstIndividual.getFitness()}\n")
 
         # Copy children to parents

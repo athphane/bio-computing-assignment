@@ -3,7 +3,7 @@ from Population import Population
 
 class BinaryGA:
     def __init__(self):
-        self.population = Population(None, 7)
+        self.population = Population(None, 7, 1000, 0.5)  # TODO: Change when switching datasets.
         self.dataset = None
 
     def read_data_file(self):
@@ -11,7 +11,7 @@ class BinaryGA:
         Load up the data files
         :return:
         """
-        file = open('data/data2.txt', 'r')
+        file = open('../data/data2.txt', 'r')  # TODO: Change when switching datasets
         lines = file.readlines()
 
         rules = []
@@ -42,7 +42,7 @@ class BinaryGA:
 
 if __name__ == '__main__':
     # Number of generations to run
-    generations_count = 100
+    generations_count = 1000
 
     # GA class
     ga = BinaryGA()
@@ -51,13 +51,13 @@ if __name__ == '__main__':
     ga.read_data_file()
 
     # CSV writer
-    f = open('../output/ds2.csv', 'w')
+    f = open('../output/ds2.csv', 'w')  # TODO: Change when changing datasets.
 
     # The populations dataset
     ga.population.dataset = ga.dataset
 
     # Current generation
-    current_generation = 1
+    current_generation = 0
 
     # Main application logic
     while current_generation <= generations_count:

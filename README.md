@@ -9,3 +9,14 @@ You get:
 
 And then you're supposed to write a 1000 word essay on your findings
 from the assignment. 
+
+### How to run the programs. 
+For the binary datasets, you will need to change a few things to switch betwen dataset 1 and 2. 
+- Population gene size
+- input file
+- output file
+
+To run the binary dataset, cd into the binary folder and do `python binary.py`
+
+The floating point dataset can be run immediately by cding into the directory and 
+running `python float.py`
