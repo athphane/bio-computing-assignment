@@ -1,8 +1,7 @@
-from copy import copy, deepcopy
+from copy import deepcopy
 from random import randint
 
 from Individual import Individual
-from binary_assignment.helpers import pls_clone_correctly
 
 
 class Population:
@@ -30,15 +29,26 @@ class Population:
         self.randomize_population_genes()
 
     def initialize_population(self):
+        """
+        Fill the population pool with a bunch of empty Individual objects
+        :return:
+        """
         for _ in range(self.POPULATION_SIZE):
             self.population.append(Individual(self.GENE_SIZE, self.RULE_SIZE))
 
     def initialize_mating_pool(self):
+        """
+        Fill the mating pool with a bunch of empty individual objects
+        :return:
+        """
         for _ in range(self.POPULATION_SIZE):
             self.mating_pool.append(Individual(self.GENE_SIZE, self.RULE_SIZE))
-        # self.mating_pool = [None for _ in range(self.POPULATION_SIZE)]
 
     def randomize_population_genes(self):
+        """
+        Randomize the genes of the individuals in the population pool
+        :return:
+        """
         for individual in self.population:
             individual.randomize_genes()
 
@@ -82,8 +92,6 @@ class Population:
         """
         for x in range(self.POPULATION_SIZE):
             self.mating_pool[x] = self.tournament_selection()
-        # for x, individual in enumerate(self.mating_pool):
-        #     self.mating_pool[x] = self.tournament_selection()
 
     def tournament_selection(self):
         """
@@ -102,24 +110,11 @@ class Population:
         else:
             return mate_2
 
-    # def crossover(self):
-    #     """
-    #     The function that handles the main crossover function
-    #     :return:
-    #     """
-    #
-    #     mating_pool_length = len(self.mating_pool)
-    #     half_of_mating_pool = int(mating_pool_length / 2)
-    #
-    #     for i, x in enumerate(self.mating_pool[:half_of_mating_pool]):
-    #         offset = i * 2
-    #
-    #         children = self.single_point_crossover(self.mating_pool[offset], self.mating_pool[offset + 1])
-    #
-    #         self.mating_pool[i] = children[0]
-    #         self.mating_pool[i + 1] = children[1]
-
     def crossover(self):
+        """
+        Run the single point crossover for the whole mating pool
+        :return:
+        """
         for i in range(int(len(self.mating_pool) / 2)):
             offset = i * 2
 
@@ -129,9 +124,13 @@ class Population:
             self.mating_pool[i + 1] = children[1]
 
     def single_point_crossover(self, parent_1: Individual, parent_2: Individual):
-        # child_1 = Individual(child=parent_1)
-        # child_2 = Individual(child=parent_2)
-
+        """
+        Single point crossover.
+        Function that does the actual crossover mentioned in the crossover() function.
+        :param parent_1:
+        :param parent_2:
+        :return:
+        """
         children = [
             deepcopy(parent_1),
             deepcopy(parent_2)
@@ -145,7 +144,7 @@ class Population:
         for i, x in enumerate(parent_1.genes):
 
             for j, y in enumerate(x):
-
+                # Swaps the bits
                 if pointer < crossover_point:
                     temp = children[0].genes[i][j]
                     children[0].genes[i][j] = children[1].genes[i][j]
@@ -157,38 +156,30 @@ class Population:
 
             if pointer >= crossover_point:
                 break
-        # for x in range(len(parent_1.genes)):
-        #     child_1_gene = child_1.genes[x]
-        #     child_2_gene = child_2.genes[x]
-        #
-        #     for y in range(crossover_point, len(child_1_gene)):
-        #         child_1_gene[y], child_2_gene[y] = child_2_gene[y], child_1_gene[y]
-        #
-        #     child_1.genes[x] = child_1_gene
-        #     child_2.genes[x] = child_2_gene
 
         return children
 
     def mutation(self):
+        """
+        Run mutation function for all individuals in mating pool
+        :return:
+        """
         for x in range(len(self.mating_pool)):
             self.mating_pool[x].mutate(self.MUTATION_RATE)
 
-    # def mutation(self):
-    #     for i, individual in enumerate(self.mating_pool):
-    #         self.mating_pool[i].mutate(self.MUTATION_RATE)
-
     def init_next_generation(self):
+        """
+        Deepcopy the mating pool into the main population.
+        :return:
+        """
         for x in range(len(self.population)):
             self.population[x] = deepcopy(self.mating_pool[x])
 
-    # def init_next_generation(self):
-    #     for i in range(self.POPULATION_SIZE):
-    #         # self.population[i] = Individual(self.GENE_SIZE, self.RULE_SIZE, self.mating_pool[i])
-    #         mate = self.mating_pool[i]
-    #         new_mate = Individual(child=mate)
-    #         self.population[i] = new_mate
-
     def show_best_individual(self):
+        """
+        Find and print out the best individual.
+        :return:
+        """
         best_individual: Individual = self.population[0]
 
         for i, individual in enumerate(self.population):

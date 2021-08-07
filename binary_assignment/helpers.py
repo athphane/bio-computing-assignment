@@ -1,5 +1,5 @@
 import random
-from copy import copy, deepcopy
+from copy import deepcopy
 
 
 def get_0_or_1():

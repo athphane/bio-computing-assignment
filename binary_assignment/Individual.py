@@ -1,7 +1,4 @@
-from random import random, randint, choice
-import sys
-from helpers import get_0_or_1
-from copy import copy
+from random import choice, random
 
 
 class Individual:
@@ -16,21 +13,22 @@ class Individual:
         return self.fitness
 
     def randomize_genes(self):
+        """
+        Randomize genes with choice of 0, 1 and 2, where 2 is a wildcard
+        :return:
+        """
         for i in range(len(self.genes)):
             for j in range(len(self.genes[i]) - 1):
                 self.genes[i][j] = choice([0, 1, 2])
 
             self.genes[i][len(self.genes[i]) - 1] = choice([0, 1, 2])
 
-    # def randomize_genes(self):
-    #     for x, gene in enumerate(self.genes):
-    #         for bit_idx, bit in enumerate(gene[:-1]):
-    #             self.genes[x][bit_idx] = choice([0, 1, 2])
-    #
-    #         self.genes[x][len(gene) - 1] = choice([0, 1])
-
-
     def fitness_function(self, dataset):
+        """
+        Fitness function to calculate the individuals fitness score
+        :param dataset:
+        :return:
+        """
         self.fitness = 0
 
         # Foreach item in dataset
@@ -55,6 +53,13 @@ class Individual:
                     break
 
     def mutate(self, rate):
+        """
+        Individual mutation for the given rate.
+        The input puts can be 0-2 with wildcard and output bit can only
+        be 0-1 without the wildcard option.
+        :param rate:
+        :return:
+        """
         for gene_id, gene in enumerate(self.genes):
             for bit_id, bit in enumerate(gene[:-1]):
                 if rate > random():

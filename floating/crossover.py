@@ -42,7 +42,8 @@ class Crossover:
                     parent1.setGeneFromIndex(i, loc, parent2.getGenes()[i][loc])
                     parent2.setGeneFromIndex(i, loc, temp)
                 except IndexError:
-                    print(f"i: {i} | mod: {loc}")
+                    # print(f"i: {i} | mod: {loc}")
+                    pass
 
                 counter += 1
 

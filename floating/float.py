@@ -10,7 +10,7 @@ CHROMOSOME_LENGTH = 20
 GENE_SIZE = 20
 MUTATION_RATE = 0.01
 OMEGA_OFFSET_FIXED = 0.3
-NUMBER_OF_GENERATIONS = 30000
+NUMBER_OF_GENERATIONS = 2000
 
 
 class FloatGA:
@@ -25,8 +25,8 @@ class FloatGA:
 
         self.parentPopulation: List[Individual] = []
         self.offspringPopulation = []
-        self.bestIndividual = None
-        self.worstIndividual = None
+        self.bestIndividual: Individual = None
+        self.worstIndividual: Individual = None
 
     def readFile(self):
         """
@@ -187,6 +187,14 @@ class FloatGA:
 
         self.worstIndividual = deepcopy(self.offspringPopulation[worstFitnessIndex])
 
+    def get_average_fitness(self):
+        total_fitness = 0
+
+        for individual in self.offspringPopulation:
+            total_fitness += individual.getFitness()
+
+        return total_fitness / len(self.offspringPopulation)
+
 
 if __name__ == '__main__':
     # Float GA class instance
@@ -196,7 +204,8 @@ if __name__ == '__main__':
     ga.readFile()
     ga.initializeDataset()
 
-    # ga.newCSV()
+    # CSV writer
+    f = open('../output/ds3.csv', 'w')
 
     # Zerofill the populations
     ga.init_populations()
@@ -229,8 +238,12 @@ if __name__ == '__main__':
         print(f"Best Fitness: {ga.bestIndividual.getFitness()} | Generations: {current_generation}")
 
         # CSV goes here
+        print(f"{ga.bestIndividual.getFitness()},{ga.get_average_fitness()},{ga.worstIndividual.getFitness()}\n")
+        f.write(f"{ga.bestIndividual.getFitness()},{ga.get_average_fitness()},{ga.worstIndividual.getFitness()}\n")
 
         # Copy children to parents
         ga.copy_children_to_parents()
 
         current_generation += 1
+
+    f.close()
